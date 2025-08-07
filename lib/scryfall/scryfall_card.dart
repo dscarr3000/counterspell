@@ -1,6 +1,11 @@
 import 'package:counterspell/scryfall/scryfall_card_face.dart';
+import 'package:counterspell/scryfall/scryfall_card_preview.dart';
 import 'package:counterspell/scryfall/scryfall_color.dart';
-import 'package:counterspell/scryfall/scryfall_image_uris.dart';
+import 'package:counterspell/scryfall/scryfall_card_imagery.dart';
+import 'package:counterspell/scryfall/scryfall_frame.dart';
+import 'package:counterspell/scryfall/scryfall_frame_effects.dart';
+import 'package:counterspell/scryfall/scryfall_image_status.dart';
+import 'package:counterspell/scryfall/scryfall_layout_and_faces.dart';
 import 'package:counterspell/scryfall/scryfall_prices.dart';
 import 'package:counterspell/scryfall/scryfall_related_card.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -62,7 +67,7 @@ sealed class ScryfallCard with _$ScryfallCard {
     @JsonKey(name: 'cardmarket_id') int? cardmarketId,
 
     /// A code for this card’s [layout](https://scryfall.com/docs/api/layouts).
-    required String layout,
+    required ScryfallLayoutAndFaces layout,
 
     /// A unique ID for this card’s oracle identity. This value is consistent across reprinted card editions,
     /// and unique among different cards with the same name (tokens, Unstable variants, etc).
@@ -160,52 +165,140 @@ sealed class ScryfallCard with _$ScryfallCard {
 
     /// The IDs of the artists that illustrated this card. Newly spoiled cards may not have this field yet.
     @JsonKey(name: 'artist_ids') List<String>? artistIds,
+
+    /// The lit [Unfinity attractions](https://scryfall.com/search?q=t%3Aattraction+unique%3Aprints) lights on this card, if any.
     @JsonKey(name: 'attraction_lights') List<int>? attractionLights,
+
+    /// Whether this card is found in boosters.
     required bool booster,
+
+    /// This card’s border color: black, white, borderless, yellow, silver, or gold.
     @JsonKey(name: 'border_color') required String borderColor,
+
+    /// The Scryfall ID for the card back design present on this card.
     @JsonKey(name: 'card_back_id') String? cardBackId,
+
+    /// This card’s collector number. Note that collector numbers can contain non-numeric characters, such as letters or ★.
     @JsonKey(name: 'collector_number') required String collectorNumber,
+
+    /// True if you should consider [avoiding use of this print](https://scryfall.com/blog/220) downstream.
     @JsonKey(name: 'content_warning') bool? contentWarning,
+
+    /// True if this card was only released in a video game.
     required bool digital,
+
+    /// An array of computer-readable flags that indicate if this card can come in foil, nonfoil, or etched finishes.
     required List<String> finishes,
+
+    /// The just-for-fun name printed on the card (such as for Godzilla series cards).
     @JsonKey(name: 'flavor_name') String? flavorName,
+
+    /// The flavor text, if any.
     @JsonKey(name: 'flavor_text') String? flavorText,
-    @JsonKey(name: 'frame_effects') List<String>? frameEffects,
-    required String frame,
+
+    /// This card’s [frame effects](https://scryfall.com/docs/api/frames), if any.
+    @JsonKey(name: 'frame_effects') List<ScryfallFrameEffects>? frameEffects,
+
+    /// This card’s [frame layout](https://scryfall.com/docs/api/frames).
+    required ScryfallFrame frame,
+
+    /// True if this card’s artwork is larger than normal.
     @JsonKey(name: 'full_art') required bool fullArt,
+
+    /// A list of games that this card print is available in, paper, arena, and/or mtgo.
     required List<String> games,
+
+    /// True if this card’s imagery is high resolution.
     @JsonKey(name: 'highres_image') required bool highresImage,
+
+    /// A unique identifier for the card artwork that remains consistent across reprints.
+    /// Newly spoiled cards may not have this field yet.
     @JsonKey(name: 'illustration_id') String? illustrationId,
-    @JsonKey(name: 'image_status') required String imageStatus,
-    @JsonKey(name: 'image_uris') ScryfallImageUris? imageUris,
+
+    /// A computer-readable indicator for the state of this card’s image, one of missing, placeholder, lowres, or highres_scan.
+    @JsonKey(name: 'image_status') required ScryfallImageStatus imageStatus,
+
+    /// An object listing available imagery for this card.
+    /// See the [Card Imagery](https://scryfall.com/docs/api/images) article for more information.
+    @JsonKey(name: 'image_uris') ScryfallCardImagery? imageUris,
+
+    /// True if this card is oversized.
     required bool oversized,
+
+    /// An object containing daily price information for this card, including usd, usd_foil, usd_etched, eur, eur_foil, eur_etched, and tix prices, as strings.
     required ScryfallPrices prices,
+
+    /// The localized name printed on this card, if any.
     @JsonKey(name: 'printed_name') String? printedName,
+
+    /// The localized text printed on this card, if any.
     @JsonKey(name: 'printed_text') String? printedText,
+
+    /// The localized type line printed on this card, if any.
     @JsonKey(name: 'printed_type_line') String? printedTypeLine,
+
+    /// True if this card is a promotional print.
     required bool promo,
+
+    /// An array of strings describing what categories of promo cards this card falls into.
     @JsonKey(name: 'promo_types') List<String>? promoTypes,
+
+    /// An object providing URIs to this card’s listing on major marketplaces. Omitted if the card is unpurchaseable.
     @JsonKey(name: 'purchase_uris') Map<String, Uri>? purchaseUris,
+
+    /// This card’s rarity. One of common, uncommon, rare, special, mythic, or bonus.
     required String rarity,
+
+    /// An object providing URIs to this card’s listing on other Magic: The Gathering online resources.
     @JsonKey(name: 'related_uris') required Map<String, Uri> relatedUris,
+
+    /// The date this card was first released.
     @JsonKey(name: 'released_at') required DateTime releasedAt,
+
+    /// True if this card is a reprint.
     required bool reprint,
+
+    /// A link to this card’s set on Scryfall’s website.
     @JsonKey(name: 'scryfall_set_uri') required Uri scryfallSet,
+
+    /// This card’s full set name.
     @JsonKey(name: 'set_name') required String setName,
+
+    /// A link to where you can begin paginating this card’s set on the Scryfall API.
     @JsonKey(name: 'set_search_uri') required Uri setSearchUri,
+
+    /// The type of set this printing is in.
     @JsonKey(name: 'set_type') required String setType,
+
+    /// A link to this card’s [set object](https://scryfall.com/docs/api/sets) on Scryfall’s API.
     @JsonKey(name: 'set_uri') required Uri setUri,
+
+    /// This card’s set code.
     required String set,
+
+    /// This card’s Set object UUID.
     @JsonKey(name: 'set_id') required String setId,
+
+    /// True if this card is a Story Spotlight.
     @JsonKey(name: 'story_spotlight') required bool storySpotlight,
+
+    /// True if the card is printed without text.
     required bool textless,
+
+    /// Whether this card is a variation of another printing.
     required bool variation,
+
+    /// The printing ID of the printing this card is a variation of.
     @JsonKey(name: 'variation_of') String? variationOf,
+
+    /// The security stamp on this card, if any. One of oval, triangle, acorn, circle, arena, or heart.
     @JsonKey(name: 'security_stamp') String? securityStamp,
+
+    /// This card’s watermark, if any.
     String? watermark,
-    @JsonKey(name: 'preview.previewed_at') DateTime? previewedAt,
-    @JsonKey(name: 'preview.source_uri') Uri? previewSourceUri,
-    @JsonKey(name: 'preview.source') String? previewSource,
+
+    /// An object containing information about this card’s preview, if any.
+    ScryfallCardPreview? preview,
   }) = _ScryfallCard;
 
   factory ScryfallCard.fromJson(Map<String, dynamic> json) => _$ScryfallCardFromJson(json);

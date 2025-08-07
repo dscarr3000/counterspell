@@ -15,8 +15,12 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ScryfallRelatedCard {
 
- String get id;// TODO: Check if this is fine for the UUID type.
- String get component; String get name;@JsonKey(name: 'type_line') String get typeLine; Uri get uri;
+/// An unique ID for this card in Scryfall’s database.
+ String get id;/// A field explaining what role this card plays in this relationship, one of token, meld_part, meld_result, or combo_piece.
+ String get component;/// The name of this particular related card.
+ String get name;/// The type line of this card.
+@JsonKey(name: 'type_line') String get typeLine;/// A URI where you can retrieve a full object describing this card on Scryfall’s API.
+ Uri get uri;
 /// Create a copy of ScryfallRelatedCard
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -211,11 +215,15 @@ class _ScryfallRelatedCard implements ScryfallRelatedCard {
   const _ScryfallRelatedCard({required this.id, required this.component, required this.name, @JsonKey(name: 'type_line') required this.typeLine, required this.uri});
   factory _ScryfallRelatedCard.fromJson(Map<String, dynamic> json) => _$ScryfallRelatedCardFromJson(json);
 
+/// An unique ID for this card in Scryfall’s database.
 @override final  String id;
-// TODO: Check if this is fine for the UUID type.
+/// A field explaining what role this card plays in this relationship, one of token, meld_part, meld_result, or combo_piece.
 @override final  String component;
+/// The name of this particular related card.
 @override final  String name;
+/// The type line of this card.
 @override@JsonKey(name: 'type_line') final  String typeLine;
+/// A URI where you can retrieve a full object describing this card on Scryfall’s API.
 @override final  Uri uri;
 
 /// Create a copy of ScryfallRelatedCard

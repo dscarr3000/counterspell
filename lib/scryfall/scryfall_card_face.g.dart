@@ -22,7 +22,7 @@ _ScryfallCardFace _$ScryfallCardFaceFromJson(Map<String, dynamic> json) =>
       illustrationId: json['illustration_id'] as String?,
       imageUris: json['image_uris'] == null
           ? null
-          : ScryfallImageUris.fromJson(
+          : ScryfallCardImagery.fromJson(
               json['image_uris'] as Map<String, dynamic>,
             ),
       layout: json['layout'] as String?,
