@@ -13,6 +13,7 @@ linter:
   rules:
     - prefer_single_quotes
     - unawaited_futures
+    - prefer_relative_imports
 
 analyzer:
   plugins:

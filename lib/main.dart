@@ -1,9 +1,17 @@
-import 'package:counterspell/screens/home.dart';
+import 'logging/logger.dart';
+import 'logging/riverpod_observer.dart';
+import 'screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 void main() {
-  runApp(const Counterspell());
+  runApp(
+    ProviderScope(
+      observers: [RiverpodObserver()],
+      child: const Counterspell(),
+    ),
+  );
 }
 
 class Counterspell extends StatelessWidget {

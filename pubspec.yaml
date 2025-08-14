@@ -43,6 +43,8 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   dio: ^5.8.0+1
+  talker_flutter: ^4.9.3
+  talker_dio_logger: ^4.9.3
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +63,7 @@ dev_dependencies:
   drift_dev: ^2.28.0
   freezed: ^3.2.0
   json_serializable: ^6.10.0
+  test: ^1.25.15
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
